@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { setContext } from 'apollo-link-context'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloProvider } from '@apollo/react-hooks'
+import Evenements from './composants/Evenements'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const httpLink = new createHttpLink({
+	uri: 'https://staging-graphql-service.onrewind.tv',
+})
 
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: Object.assign(
+      headers || {},
+      {
+		'x-account-key': 'ryHvne_jFV'
+      }
+    )
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+})
+
+
+const App = () => (
+	<ApolloProvider client={client}>
+		<Evenements/>
+	</ApolloProvider>
+)
 export default App;
