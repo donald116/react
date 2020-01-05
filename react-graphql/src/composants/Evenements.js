@@ -42,15 +42,13 @@ function Evenements() {
 	<div class="first">
         <div><h2 class ="title">Liste des évènements</h2></div>
         <div class="container">
+
             <BrowserRouter>
             {
                 data.allEvents.items.map(evenement => (
                 <div class = "card" key={evenement.id}>
 
-                    
-
                     <h4>
-                        
                         Évènements: <Link to={`/Details?eventName=${evenement.name}`}onClick={() => afficherEvenement(evenement.id)}>{evenement.name}</Link>
                     </h4>
 
@@ -74,14 +72,13 @@ function Evenements() {
                         )
                         )}
                     </div>
+                <Route  path="/Details" component={Details} />
 
                 </div>
                 ))
-            }
-            <div>
-                <Route path="/Details" component={Details} />
-            </div>
+            }            
             </BrowserRouter>
+
         </div>
 	</div>
   )
