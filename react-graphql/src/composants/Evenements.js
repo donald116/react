@@ -1,8 +1,9 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { Link, BrowserRouter } from 'react-router-dom'
+import { Link, BrowserRouter , Route } from 'react-router-dom'
 
+import Details from './Details'
 import '../css/style.css'
 
 const GET_ALLEVENTS = gql`
@@ -38,7 +39,7 @@ function Evenements() {
   if (!data.allEvents.items) return <h2>Aucune donnée</h2>;
 
   return (
-	<div>
+	<div class="first">
         <div><h2 class ="title">Liste des évènements</h2></div>
         <div class="container">
             <BrowserRouter>
@@ -49,13 +50,14 @@ function Evenements() {
                     
 
                     <h4>
-                        Évènements: <Link to={`/event?eventid=${evenement.name}`} onClick={() => afficherEvenement(evenement.id)}>{evenement.name}</Link>
+                        
+                        Évènements: <Link to={`/Details?eventName=${evenement.name}`}onClick={() => afficherEvenement(evenement.id)}>{evenement.name}</Link>
                     </h4>
 
                     <div>{evenement.Challengers.map(challeng => (
                         <div key={challeng.id}>
                             <div>Nom Challengers: {challeng.name}</div>
-                            <div>img:<img></img> {challeng.pictureUrl}</div>
+                            <div>img: {challeng.pictureUrl}</div>
                         </div>
                         ))}
                     </div>
@@ -76,6 +78,9 @@ function Evenements() {
                 </div>
                 ))
             }
+            <div>
+                <Route path="/Details" component={Details} />
+            </div>
             </BrowserRouter>
         </div>
 	</div>
